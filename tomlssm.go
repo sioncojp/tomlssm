@@ -2,7 +2,6 @@ package tomlssm
 
 import (
 	"io/ioutil"
-	"fmt"
 	"reflect"
 	"strings"
 
@@ -30,7 +29,6 @@ func (d *ssmDecrypter) expand(encrypted string) (string, error) {
 	}
 	resp, err := d.svc.GetParameter(params)
 	if err != nil {
-		fmt.Println(err)
 		return "", err
 	}
 	return *resp.Parameter.Value, nil
@@ -38,7 +36,6 @@ func (d *ssmDecrypter) expand(encrypted string) (string, error) {
 
 // decryptCopyRecursive decrypts ssm and does actual copying of the interface.
 func (d *ssmDecrypter) decryptCopyRecursive(copy, original reflect.Value) {
-	fmt.Println(original)
 	switch original.Kind() {
 	case reflect.Interface:
 		if original.IsNil() {
