@@ -1,4 +1,4 @@
-# tomllssm
+# tomlssm
 
 tomlssm is extended TOML format with Amazon Simple System Manager.
 
@@ -24,12 +24,10 @@ import (
 	toml "github.com/sioncojp/tomlssm"
 )
 
-
 type Config struct {
 	User     string `toml:"username"`
 	Password string `toml:"password"`
 }
-
 
 func LoadToml(c string) (*Config, error) {
 	var config Config
@@ -38,7 +36,6 @@ func LoadToml(c string) (*Config, error) {
 	}
 	return &config, nil
 }
-
 
 func main() {
 	conf, err := LoadToml(`
@@ -80,7 +77,6 @@ func LoadToml(c string) (*Config, error) {
 	}
 	return &config, nil
 }
-
 
 func main() {
 	conf, err := LoadToml("config.toml")
