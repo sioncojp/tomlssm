@@ -13,13 +13,13 @@ import (
 
 )
 
-// ssmDecrypter stores the AWS Session used for SSM decrypter.
+// ssmDecrypter... stores the AWS Session used for SSM decrypter.
 type ssmDecrypter struct {
 	sess *session.Session
 	svc  ssmiface.SSMAPI
 }
 
-// expand returns to decrypt SSM parameter value.
+// expand... returns to decrypt SSM parameter value.
 func (d *ssmDecrypter) expand(encrypted string) (string, error) {
 	trimed := strings.TrimPrefix(encrypted, "ssm://")
 
@@ -34,7 +34,7 @@ func (d *ssmDecrypter) expand(encrypted string) (string, error) {
 	return *resp.Parameter.Value, nil
 }
 
-// decryptCopyRecursive decrypts ssm and does actual copying of the interface.
+// decryptCopyRecursive... decrypts ssm and does actual copying of the interface.
 func (d *ssmDecrypter) decryptCopyRecursive(copy, original reflect.Value) {
 	switch original.Kind() {
 	case reflect.Interface:
@@ -88,7 +88,7 @@ func (d *ssmDecrypter) decryptCopyRecursive(copy, original reflect.Value) {
 	}
 }
 
-// deccrypt decrypts string begins with "ssm://".
+// deccrypt... decrypts string begins with "ssm://".
 func (d *ssmDecrypter) decrypt(s string) string {
 	if strings.HasPrefix(s, "ssm://") {
 		actual, _ := d.expand(s)
@@ -97,14 +97,14 @@ func (d *ssmDecrypter) decrypt(s string) string {
 	return s
 }
 
-// newssmDecrypter returns a new ssmDecrypter.
+// newssmDecrypter... returns a new ssmDecrypter.
 func newssmDecrypter(env string) *ssmDecrypter {
 	sess := session.New()
 	svc := ssm.New(sess, aws.NewConfig().WithRegion(env))
 	return &ssmDecrypter{sess, svc}
 }
 
-// override decrypt and override the "ssm://" cipher.
+// override... decrypt and override the "ssm://" cipher.
 func (d *ssmDecrypter) override(out interface{}) error {
 	v := reflect.ValueOf(out)
 
@@ -123,7 +123,7 @@ func (d *ssmDecrypter) override(out interface{}) error {
 	return nil
 }
 
-// DecodeFile works same as github.com/BurntSushi/toml.
+// DecodeFile... works same as github.com/BurntSushi/toml.
 //
 // After Decode TOML files, tomlssm replace value prefixed `"ssm://"`
 // by encrypted value which stored in your System Manager Parameter Store.
@@ -140,7 +140,7 @@ func DecodeFile(in string, v interface{}, env string) (toml.MetaData, error) {
 	return out, nil
 }
 
-// Decode works same as github.com/BurntSushi/toml.
+// Decode... works same as github.com/BurntSushi/toml.
 func Decode(data string, v interface{}, env string) (toml.MetaData, error) {
 	out, err := toml.Decode(data, v)
 	if err != nil {
