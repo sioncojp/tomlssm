@@ -4,14 +4,7 @@ tomlssm is extended TOML format with Amazon Simple System Manager.
 
 ## How to use
 
-tomlssm has expand ssm value as macro prefixed by `"ssm://"`. See example below:
-
-```
-# config.toml
-
-username = "test"
-password = "ssm://password"
-```
+tomlssm has expand ssm value as macro prefixed by `"ssm://"`.
 
 `"ssm://password"` should be set on you [System Manager Parameter Store](http://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html). If you set, tomlssm set a value stored in parameter store.
 
@@ -47,6 +40,12 @@ password = "ssm://password"
 	}
 	fmt.Println(conf)
 }
+```
+
+```shell
+$ go run main.go
+
+# It might to need `export AWS_SDK_LOAD_CONFIG=1`
 ```
 
 ### DecodeFile
@@ -85,6 +84,12 @@ func main() {
 	}
 	fmt.Println(conf)
 }
+```
+
+```shell
+$ go run main.go
+
+# It might to need `export AWS_SDK_LOAD_CONFIG=1`
 ```
 
 ## References
