@@ -4,12 +4,12 @@ import (
 	"io/ioutil"
 	"reflect"
 	"strings"
+	
+	"github.com/BurntSushi/toml"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
 	"github.com/aws/aws-sdk-go/service/ssm/ssmiface"
-	"github.com/BurntSushi/toml"
-
 )
 
 // ssmDecrypter... stores the AWS Session used for SSM decrypter.
@@ -98,7 +98,7 @@ func (d *ssmDecrypter) decrypt(s string) string {
 
 // newssmDecrypter... returns a new ssmDecrypter.
 func newssmDecrypter(env string) *ssmDecrypter {
-	sess,_ := session.NewSession()
+	sess, _ := session.NewSession()
 	svc := ssm.New(sess, aws.NewConfig().WithRegion(env))
 	return &ssmDecrypter{sess, svc}
 }
