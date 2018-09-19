@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"reflect"
 	"strings"
-
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
@@ -99,7 +98,7 @@ func (d *ssmDecrypter) decrypt(s string) string {
 
 // newssmDecrypter... returns a new ssmDecrypter.
 func newssmDecrypter(env string) *ssmDecrypter {
-	sess := session.New()
+	sess,_ := session.NewSession()
 	svc := ssm.New(sess, aws.NewConfig().WithRegion(env))
 	return &ssmDecrypter{sess, svc}
 }
