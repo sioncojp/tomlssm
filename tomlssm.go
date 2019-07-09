@@ -1,6 +1,7 @@
 package tomlssm
 
 import (
+	"io"
 	"io/ioutil"
 	"reflect"
 	"strings"
@@ -148,5 +149,19 @@ func Decode(data string, v interface{}, env string) (toml.MetaData, error) {
 	d := newssmDecrypter(env)
 	d.override(v)
 
+	return out, nil
+}
+
+// DecodeReader ... works same as github.com/BurntSushi/toml.
+func DecodeReader(r io.Reader, v interface{}, env string) (toml.MetaData, error) {
+	bs, err := ioutil.ReadAll(r)
+	if err != nil {
+		return toml.MetaData{}, err
+	}
+
+	out, err := Decode(string(bs), v, env)
+	if err != nil {
+		return toml.MetaData{}, err
+	}
 	return out, nil
 }
